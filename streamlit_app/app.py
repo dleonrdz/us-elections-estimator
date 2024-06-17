@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
-# Calculate the path to the directory ABOVE the current script directory (i.e., the project root)
+
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 image_path = os.path.join(PROJECT_ROOT,"streamlit_app/images/usa_image.jpeg")
@@ -36,7 +36,6 @@ additional_sentiment_data = [
 additional_sentiment_df = pd.DataFrame(additional_sentiment_data)
 sentiment_df = pd.concat([sentiment_df, additional_sentiment_df], ignore_index=True)
 
-# Create a grouped dataframe to count preferences by state for sentiment
 grouped_sentiment_df = sentiment_df.groupby(['state', 'state_code', 'preference']).size().reset_index(name='count')
 pivot_sentiment_df = grouped_sentiment_df.pivot(index=['state', 'state_code'], columns='preference', values='count').reset_index().fillna(0)
 
@@ -48,7 +47,6 @@ if 'Democrat' not in pivot_sentiment_df.columns:
 pivot_sentiment_df['total'] = pivot_sentiment_df['Republican'] + pivot_sentiment_df['Democrat']
 pivot_sentiment_df['preference_ratio'] = pivot_sentiment_df['Republican'] / pivot_sentiment_df['total']
 
-# Create the sentiment tracker map
 sentiment_fig = px.choropleth(
     pivot_sentiment_df,
     locations='state_code',
@@ -129,22 +127,18 @@ official_fig.update_layout(
     height=400
 )
 
-# Create two columns for the maps
+
 map_col1, map_col2 = st.columns([1, 1])
 
-# Display the sentiment tracker map in the left column
 with map_col1:
     st.plotly_chart(sentiment_fig)
 
-# Display the official results map in the right column
 with map_col2:
     st.plotly_chart(official_fig)
 
-# Calculate overall preference for sentiment
 total_sentiment_republican = pivot_sentiment_df['Republican'].sum()
 total_sentiment_democrat = pivot_sentiment_df['Democrat'].sum()
 
-# Create pie chart for sentiment
 sentiment_pie_fig = go.Figure(data=[go.Pie(
     labels=['Republican', 'Democrat'],
     values=[total_sentiment_republican, total_sentiment_democrat],
@@ -155,11 +149,9 @@ sentiment_pie_fig.update_layout(
     margin=dict(l=0, r=0, t=50, b=0)
 )
 
-# Calculate overall preference for official results
 total_official_republican = grouped_official_df['Republican'].sum()
 total_official_democrat = grouped_official_df['Democrat'].sum()
 
-# Create pie chart for official results
 official_pie_fig = go.Figure(data=[go.Pie(
     labels=['Republican', 'Democrat'],
     values=[total_official_republican, total_official_democrat],
@@ -170,25 +162,20 @@ official_pie_fig.update_layout(
     margin=dict(l=0, r=0, t=50, b=0)
 )
 
-# Create two columns for the pie charts
 pie_col1, pie_col2 = st.columns([1, 1])
 
-# Display the sentiment preference pie chart in the left column
 with pie_col1:
     st.plotly_chart(sentiment_pie_fig)
 
-# Display the official results preference pie chart in the right column
 with pie_col2:
     st.plotly_chart(official_pie_fig)
 
 custom_tweet = st.text_input("Test your tweet!")
 
-# Create two empty columns for centering the button
 col1, col2, col3 = st.columns([1, 2, 1])
 
 response = ''
 with col2:
-    # Centered Get Maintenance Report button
     if st.button("Get political preference"):
         response = 'Work in progress'
 
