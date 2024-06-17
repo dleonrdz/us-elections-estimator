@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import os
 # Calculate the path to the directory ABOVE the current script directory (i.e., the project root)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -138,4 +139,56 @@ with map_col1:
 # Display the official results map in the right column
 with map_col2:
     st.plotly_chart(official_fig)
+
+# Calculate overall preference for sentiment
+total_sentiment_republican = pivot_sentiment_df['Republican'].sum()
+total_sentiment_democrat = pivot_sentiment_df['Democrat'].sum()
+
+# Create pie chart for sentiment
+sentiment_pie_fig = go.Figure(data=[go.Pie(
+    labels=['Republican', 'Democrat'],
+    values=[total_sentiment_republican, total_sentiment_democrat],
+    marker=dict(colors=['red', 'blue'])
+)])
+sentiment_pie_fig.update_layout(
+    title='Overall Sentiment Preference',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+
+# Calculate overall preference for official results
+total_official_republican = grouped_official_df['Republican'].sum()
+total_official_democrat = grouped_official_df['Democrat'].sum()
+
+# Create pie chart for official results
+official_pie_fig = go.Figure(data=[go.Pie(
+    labels=['Republican', 'Democrat'],
+    values=[total_official_republican, total_official_democrat],
+    marker=dict(colors=['red', 'blue'])
+)])
+official_pie_fig.update_layout(
+    title='Overall Official Results Preference',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+
+# Create two columns for the pie charts
+pie_col1, pie_col2 = st.columns([1, 1])
+
+# Display the sentiment preference pie chart in the left column
+with pie_col1:
+    st.plotly_chart(sentiment_pie_fig)
+
+# Display the official results preference pie chart in the right column
+with pie_col2:
+    st.plotly_chart(official_pie_fig)
+
+custom_tweet = st.text_input("Test your tweet!")
+
+# Create two empty columns for centering the button
+col1, col2, col3 = st.columns([1, 2, 1])
+
+response = ''
+with col2:
+    # Centered Get Maintenance Report button
+    if st.button("Get political preference"):
+        response = 'Work in progress'
 
