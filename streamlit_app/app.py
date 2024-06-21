@@ -3,12 +3,25 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
+import numpy as np
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 image_path = os.path.join(PROJECT_ROOT,"streamlit_app/images/usa_image.jpeg")
-official_results_path = os.path.join(PROJECT_ROOT,"data/processed/official_results.csv")
+#logo_path = os.path.join(PROJECT_ROOT,"streamlit_app/images/logo.jpg")
+official_results_path = os.path.join(PROJECT_ROOT,"data/processed/official_results_grouped.csv")
+tracked_data_path = os.path.join(PROJECT_ROOT,"data/processed/tracked_data_processed.csv")
+key_states_path = os.path.join(PROJECT_ROOT,"data/processed/key_states_tracking.csv")
+time_series_path = os.path.join(PROJECT_ROOT,"data/processed/time_series_tracking.csv")
+engagement_path = os.path.join(PROJECT_ROOT,"data/processed/engagement_tracking.csv")
 col1, col2 = st.columns([1, 5])
+
+grouped_official_df = pd.read_csv(official_results_path)
+pivot_sentiment_df = pd.read_csv(tracked_data_path)
+key_states_df = pd.read_csv(key_states_path)
+time_series_df = pd.read_csv(time_series_path)
+engagement_df = pd.read_csv(engagement_path)
+
 
 with col1:
     st.image(image_path, width=150)
@@ -16,36 +29,26 @@ with col1:
 with col2:
     st.title("US Campaigns Tracker")
 
-sentiment_data = {
-    'state': ['Alabama', 'Alabama', 'Alaska', 'Alaska', 'Arizona', 'Arizona', 'Arkansas', 'Arkansas', 'California', 'California'],
-    'state_code': ['AL', 'AL', 'AK', 'AK', 'AZ', 'AZ', 'AR', 'AR', 'CA', 'CA'],
-    'preference': ['Republican', 'Democrat', 'Republican', 'Democrat', 'Republican', 'Democrat', 'Republican', 'Democrat', 'Republican', 'Democrat']
-}
 
-sentiment_df = pd.DataFrame(sentiment_data)
+st.sidebar.title("Estimation Methodology")
+st.sidebar.write("""
+    Our estimations are derived from a fine-tuned version of DistilBERT, applied to Twitter (now X) data focusing on political tweets. 
+    The model analyzes the sentiment of each tweet and categorizes support based on the political figure or party the tweet references.
+""")
+#st.sidebar.image(logo_path, use_column_width=True)
 
-additional_sentiment_data = [
-    {'state': 'California', 'state_code': 'CA', 'preference': 'Democrat'},
-    {'state': 'California', 'state_code': 'CA', 'preference': 'Democrat'},
-    {'state': 'Texas', 'state_code': 'TX', 'preference': 'Republican'},
-    {'state': 'Texas', 'state_code': 'TX', 'preference': 'Republican'},
-    {'state': 'Texas', 'state_code': 'TX', 'preference': 'Republican'},
-    {'state': 'Texas', 'state_code': 'TX', 'preference': 'Democrat'}
-]
+st.markdown("""
+    <h2 style="text-align: center; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;">
+        <span style="color: blue;">Democrats</span> vs 
+        <span style="color: red;">Republicans</span>
+    </h2>
+    """, unsafe_allow_html=True)
 
-additional_sentiment_df = pd.DataFrame(additional_sentiment_data)
-sentiment_df = pd.concat([sentiment_df, additional_sentiment_df], ignore_index=True)
-
-grouped_sentiment_df = sentiment_df.groupby(['state', 'state_code', 'preference']).size().reset_index(name='count')
-pivot_sentiment_df = grouped_sentiment_df.pivot(index=['state', 'state_code'], columns='preference', values='count').reset_index().fillna(0)
-
-if 'Republican' not in pivot_sentiment_df.columns:
-    pivot_sentiment_df['Republican'] = 0
-if 'Democrat' not in pivot_sentiment_df.columns:
-    pivot_sentiment_df['Democrat'] = 0
-
-pivot_sentiment_df['total'] = pivot_sentiment_df['Republican'] + pivot_sentiment_df['Democrat']
-pivot_sentiment_df['preference_ratio'] = pivot_sentiment_df['Republican'] / pivot_sentiment_df['total']
+st.markdown("""
+    <h2 style="text-align: center; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;">
+        GeoPreferences    
+    </h2>
+    """, unsafe_allow_html=True)
 
 sentiment_fig = px.choropleth(
     pivot_sentiment_df,
@@ -63,7 +66,7 @@ sentiment_fig = px.choropleth(
 sentiment_fig.update_layout(coloraxis_showscale=False)
 sentiment_fig.update_layout(
     title={
-        'text': 'Sentiment Tracker by State',
+        'text': 'Estimation by State',
         'y':0.95,
         'x':0.5,
         'xanchor': 'center',
@@ -73,31 +76,6 @@ sentiment_fig.update_layout(
     width=600,
     height=400
 )
-
-official_df = pd.read_csv(official_results_path)
-
-# Create a grouped dataframe to count total votes by state for each candidate
-grouped_official_df = official_df.groupby(['state', 'candidate'])['total_votes'].sum().unstack().reset_index().fillna(0)
-
-if 'Republican' not in grouped_official_df.columns:
-    grouped_official_df['Republican'] = 0
-if 'Democrat' not in grouped_official_df.columns:
-    grouped_official_df['Democrat'] = 0
-
-grouped_official_df['total'] = grouped_official_df['Republican'] + grouped_official_df['Democrat']
-grouped_official_df['preference_ratio'] = grouped_official_df['Republican'] / grouped_official_df['total']
-
-state_codes = {'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO',
-               'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
-               'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA',
-               'Maine': 'ME', 'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
-               'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
-               'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
-               'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN',
-               'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
-               'Wisconsin': 'WI', 'Wyoming': 'WY'}
-
-grouped_official_df['state_code'] = grouped_official_df['state'].map(state_codes)
 
 # Create the official results map
 official_fig = px.choropleth(
@@ -136,40 +114,170 @@ with map_col1:
 with map_col2:
     st.plotly_chart(official_fig)
 
-total_sentiment_republican = pivot_sentiment_df['Republican'].sum()
-total_sentiment_democrat = pivot_sentiment_df['Democrat'].sum()
+# Sort key states dataframe by Electoral Votes in descending order
+key_states_df_sorted = key_states_df.sort_values(by='Electoral Votes', ascending=False)
 
-sentiment_pie_fig = go.Figure(data=[go.Pie(
-    labels=['Republican', 'Democrat'],
-    values=[total_sentiment_republican, total_sentiment_democrat],
-    marker=dict(colors=['red', 'blue'])
-)])
-sentiment_pie_fig.update_layout(
-    title='Overall Sentiment Preference',
-    margin=dict(l=0, r=0, t=50, b=0)
+# Create the bar plot for key states
+colors = {'Republican': 'red', 'Democrat': 'blue'}
+key_states_fig = px.bar(
+    key_states_df_sorted,
+    x='state_code',
+    y='Electoral Votes',
+    color='Winning',
+    color_discrete_map=colors,
+    title='The Key States Battle'
 )
 
-total_official_republican = grouped_official_df['Republican'].sum()
-total_official_democrat = grouped_official_df['Democrat'].sum()
-
-official_pie_fig = go.Figure(data=[go.Pie(
-    labels=['Republican', 'Democrat'],
-    values=[total_official_republican, total_official_democrat],
-    marker=dict(colors=['red', 'blue'])
-)])
-official_pie_fig.update_layout(
-    title='Overall Official Results Preference',
-    margin=dict(l=0, r=0, t=50, b=0)
+# Update the layout to ensure the bars are ordered by Electoral Votes regardless of color
+key_states_fig.update_layout(
+    showlegend=False,
+    title={
+        'y':0.95,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    margin={"r":0,"t":50,"l":0,"b":0},
+    width=1200,
+    height=400,
+    xaxis={'categoryorder': 'total descending', 'title':'State'}
 )
 
-pie_col1, pie_col2 = st.columns([1, 1])
+# Display the bar plot below the maps
+st.plotly_chart(key_states_fig)
 
-with pie_col1:
-    st.plotly_chart(sentiment_pie_fig)
+st.markdown("""
+    <h2 style="text-align: center; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;">
+        Who’s Winning?   
+    </h2>
+    """, unsafe_allow_html=True)
 
-with pie_col2:
-    st.plotly_chart(official_pie_fig)
+total_sentiment_republican = pivot_sentiment_df['Republican_electoral_votes'].sum()
+total_sentiment_democrat = pivot_sentiment_df['Democrat_electoral_votes'].sum()
 
+# Create bar chart for sentiment
+sentiment_bar_fig = go.Figure(data=[go.Bar(
+    x=['Republican', 'Democrat'],
+    y=[total_sentiment_republican, total_sentiment_democrat],
+    marker_color=['red', 'blue'],
+    text=[total_sentiment_republican, total_sentiment_democrat],
+    textposition='auto'
+)])
+sentiment_bar_fig.update_layout(
+    title='Electoral Votes Estimation',
+    xaxis_title='',
+    yaxis_title='Total Electoral Votes',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+sentiment_bar_fig.update_traces(texttemplate='%{text:.0f}')
+
+# Calculate overall preference for official results
+total_official_republican = grouped_official_df['Republican_electoral_votes'].sum()
+total_official_democrat = grouped_official_df['Democrat_electoral_votes'].sum()
+
+# Create bar chart for official results
+official_bar_fig = go.Figure(data=[go.Bar(
+    x=['Republican', 'Democrat'],
+    y=[total_official_republican, total_official_democrat],
+    marker_color=['red', 'blue'],
+    text=[total_official_republican, total_official_democrat],
+    textposition='auto'
+)])
+official_bar_fig.update_layout(
+    title='Official Electoral Votes Count',
+    xaxis_title='',
+    yaxis_title='Total Electoral Votes',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+official_bar_fig.update_traces(texttemplate='%{text:.0f}')
+
+# Create two columns for the bar charts
+bar_col1, bar_col2 = st.columns([1, 1])
+
+with bar_col1:
+    st.plotly_chart(sentiment_bar_fig)
+
+with bar_col2:
+    st.plotly_chart(official_bar_fig)
+
+st.markdown("""
+    <h2 style="text-align: center; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;">
+        Tweets Wars  
+    </h2>
+    """, unsafe_allow_html=True)
+
+time_series_fig = px.line(
+    time_series_df,
+    x='created_at',
+    y=['tweet_Democrat', 'tweet_Republican'],
+    title='Twitter Activity Evolution',
+    labels={'created_at': 'Date', 'value': 'Number of Tweets'},
+    color_discrete_map={
+        'tweet_Democrat': 'blue',
+        'tweet_Republican': 'red'
+    }
+)
+time_series_fig.update_layout(
+    showlegend=False,
+    title={
+        'y':0.95,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    margin={"r":0,"t":50,"l":0,"b":0},
+    xaxis_title='Date',
+    yaxis_title='Number of Tweets'
+)
+
+# Display the time series plot below the bar charts and above the tweet test section
+st.plotly_chart(time_series_fig)
+
+# Create bar charts for engagement metrics
+likes_bar_fig = go.Figure(data=[go.Bar(
+    x=engagement_df['preference'],
+    y=engagement_df['likes'],
+    marker_color=['blue', 'red'],
+    text=engagement_df['likes'],
+    textposition='auto'
+)])
+likes_bar_fig.update_layout(
+    title='Total Likes',
+    xaxis_title='Party',
+    yaxis_title='Total Likes',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+likes_bar_fig.update_traces(texttemplate='%{text:,.0f}')
+
+retweets_bar_fig = go.Figure(data=[go.Bar(
+    x=engagement_df['preference'],
+    y=engagement_df['retweet_count'],
+    marker_color=['blue', 'red'],
+    text=engagement_df['retweet_count'],
+    textposition='auto'
+)])
+retweets_bar_fig.update_layout(
+    title='Total Retweets',
+    xaxis_title='Party',
+    yaxis_title='Total Retweets',
+    margin=dict(l=0, r=0, t=50, b=0)
+)
+retweets_bar_fig.update_traces(texttemplate='%{text:,.0f}')
+
+# Create two columns for the engagement bar charts
+engagement_col1, engagement_col2 = st.columns([1, 1])
+
+with engagement_col1:
+    st.plotly_chart(likes_bar_fig)
+
+with engagement_col2:
+    st.plotly_chart(retweets_bar_fig)
+
+st.markdown("""
+    <h2 style="text-align: center; font-family: 'Source Sans Pro', sans-serif; font-weight: bold;">
+        Tweet-o-Meter 
+    </h2>
+    """, unsafe_allow_html=True)
 custom_tweet = st.text_input("Test your tweet!")
 
 col1, col2, col3 = st.columns([1, 2, 1])
