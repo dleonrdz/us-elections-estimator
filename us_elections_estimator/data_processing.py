@@ -1,20 +1,13 @@
 import pandas as pd
+from data_processing_utils import state_aggregation, official_results_processing, PROJECT_ROOT
 import os
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-raw_data_path = os.path.join(PROJECT_ROOT,"data/raw/president_county_candidate.csv")
-processed_data_path = os.path.join(PROJECT_ROOT,"data/processed/official_results.csv")
+sentiment_df = pd.read_csv('data/processed/data.csv',
+                           sep=';',
+                           lineterminator='\n')
+state_aggregation(sentiment_df, 'tracked_data_processed')
+official_results_processing()
 
-df = pd.read_csv(raw_data_path)
-df_grouped = df.groupby(['state', 'candidate'], as_index= False).agg({'total_votes':'sum'})
 
-df_grouped = df_grouped[(df_grouped['candidate'].isin(['Joe Biden',
-                                                       'Donald Trump']))]
 
-df_grouped['candidate'] = df_grouped['candidate'].str.replace('Joe Biden', 'Democrat')
-df_grouped['candidate'] = df_grouped['candidate'].str.replace('Donald Trump', 'Republican')
-
-df_grouped.to_csv(processed_data_path, index=False)
-
-print(df_grouped.head())
 
