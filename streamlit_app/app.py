@@ -3,8 +3,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
+from transformers import pipeline
 import numpy as np
 
+classifier = pipeline("text-classification", model="juliovp/distilbert_republican_democrat_tweets")
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 image_path = os.path.join(PROJECT_ROOT,"streamlit_app/images/usa_image.jpeg")
@@ -30,11 +32,24 @@ with col2:
     st.title("US Campaigns Tracker")
 
 
-st.sidebar.title("Estimation Methodology")
+# Sidebar with navigation instructions and estimation methodology
+st.sidebar.title("How to Navigate")
+#st.sidebar.image(logo_path, use_column_width=True)
 st.sidebar.write("""
+    Welcome to the US Campaigns Tracker! Here’s a quick guide to help you navigate through the app:
+
+    - **GeoPreferences**: Visualize the distribution of electoral votes across different states, with detailed insights into the Key States Battle.
+    - **Who's Winning?**: Compare the overall electoral votes each party has according to our sentiment estimation versus the official polls.
+    - **Tweets Wars**: Track the engagement metrics over time to see which party generates more buzz on social media.
+    - **Tweet-o-Meter**: Analyze the political inclination of your custom tweet and see how it aligns with current sentiment.
+
+    Each section provides insights into the current political landscape, helping you understand trends and sentiments across the nation.
+
+    ### Estimation Methodology
     Our estimations are derived from a fine-tuned version of DistilBERT, applied to Twitter (now X) data focusing on political tweets. 
     The model analyzes the sentiment of each tweet and categorizes support based on the political figure or party the tweet references.
 """)
+
 #st.sidebar.image(logo_path, use_column_width=True)
 
 st.markdown("""
@@ -157,10 +172,10 @@ total_sentiment_democrat = pivot_sentiment_df['Democrat_electoral_votes'].sum()
 
 # Create bar chart for sentiment
 sentiment_bar_fig = go.Figure(data=[go.Bar(
-    x=['Republican', 'Democrat'],
-    y=[total_sentiment_republican, total_sentiment_democrat],
-    marker_color=['red', 'blue'],
-    text=[total_sentiment_republican, total_sentiment_democrat],
+    x=['Democrat', 'Republican'],
+    y=[total_sentiment_democrat,total_sentiment_republican],
+    marker_color=['blue','red'],
+    text=[total_sentiment_democrat,total_sentiment_republican],
     textposition='auto'
 )])
 sentiment_bar_fig.update_layout(
@@ -177,10 +192,10 @@ total_official_democrat = grouped_official_df['Democrat_electoral_votes'].sum()
 
 # Create bar chart for official results
 official_bar_fig = go.Figure(data=[go.Bar(
-    x=['Republican', 'Democrat'],
-    y=[total_official_republican, total_official_democrat],
-    marker_color=['red', 'blue'],
-    text=[total_official_republican, total_official_democrat],
+    x=['Democrat','Republican'],
+    y=[total_official_democrat,total_official_republican],
+    marker_color=['blue','red'],
+    text=[total_official_democrat,total_official_republican],
     textposition='auto'
 )])
 official_bar_fig.update_layout(
@@ -243,7 +258,7 @@ likes_bar_fig = go.Figure(data=[go.Bar(
 )])
 likes_bar_fig.update_layout(
     title='Total Likes',
-    xaxis_title='Party',
+    xaxis_title='',
     yaxis_title='Total Likes',
     margin=dict(l=0, r=0, t=50, b=0)
 )
@@ -258,7 +273,7 @@ retweets_bar_fig = go.Figure(data=[go.Bar(
 )])
 retweets_bar_fig.update_layout(
     title='Total Retweets',
-    xaxis_title='Party',
+    xaxis_title='',
     yaxis_title='Total Retweets',
     margin=dict(l=0, r=0, t=50, b=0)
 )
@@ -285,5 +300,6 @@ col1, col2, col3 = st.columns([1, 2, 1])
 response = ''
 with col2:
     if st.button("Get political preference"):
-        response = 'Work in progress'
+        response = classifier(custom_tweet)[0]['label']
+        st.write(f"You are a **{response}!!!**")
 
