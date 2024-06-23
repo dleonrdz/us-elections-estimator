@@ -1,53 +1,53 @@
 state,state_code,Democrat,Republican,Electoral Votes,Republican_electoral_votes,Democrat_electoral_votes,Winning,preference_ratio
-Alabama,AL,23,25,9.0,9.0,0.0,Republican,1.0
-Alaska,AK,16,6,3.0,0.0,3.0,Democrat,0.0
-Arizona,AZ,69,83,11.0,11.0,0.0,Republican,1.0
-Arkansas,AR,8,25,6.0,6.0,0.0,Republican,1.0
-California,CA,841,804,55.0,0.0,55.0,Democrat,0.0
-Colorado,CO,73,107,9.0,9.0,0.0,Republican,1.0
-Connecticut,CT,30,29,7.0,0.0,7.0,Democrat,0.0
-Delaware,DE,6,5,3.0,0.0,3.0,Democrat,0.0
-District of Columbia,DC,216,215,3.0,0.0,3.0,Democrat,0.0
-District of Columbia,WA,75,86,12.0,12.0,0.0,Republican,1.0
-Florida,FL,444,532,29.0,29.0,0.0,Republican,1.0
-Georgia,GA,98,66,16.0,0.0,16.0,Democrat,0.0
-Hawaii,HI,10,22,4.0,4.0,0.0,Republican,1.0
-Idaho,ID,8,25,4.0,4.0,0.0,Republican,1.0
-Illinois,IL,171,161,20.0,0.0,20.0,Democrat,0.0
-Indiana,IN,56,42,11.0,0.0,11.0,Democrat,0.0
-Iowa,IA,21,32,6.0,6.0,0.0,Republican,1.0
-Kansas,KS,20,29,6.0,6.0,0.0,Republican,1.0
-Kentucky,KY,34,44,8.0,8.0,0.0,Republican,1.0
-Louisiana,LA,23,28,8.0,8.0,0.0,Republican,1.0
-Maine,ME,9,10,4.0,4.0,0.0,Republican,1.0
-Maryland,MD,63,49,10.0,0.0,10.0,Democrat,0.0
-Massachusetts,MA,106,95,11.0,0.0,11.0,Democrat,0.0
-Michigan,MI,97,92,16.0,0.0,16.0,Democrat,0.0
-Minnesota,MN,42,48,10.0,10.0,0.0,Republican,1.0
-Mississippi,MS,3,2,6.0,0.0,6.0,Democrat,0.0
-Missouri,MO,57,67,10.0,10.0,0.0,Republican,1.0
-Montana,MT,6,7,3.0,3.0,0.0,Republican,1.0
-Nebraska,NE,11,18,5.0,5.0,0.0,Republican,1.0
-Nevada,NV,71,66,6.0,0.0,6.0,Democrat,0.0
-New Hampshire,NH,6,11,4.0,4.0,0.0,Republican,1.0
-New Jersey,NJ,124,120,14.0,0.0,14.0,Democrat,0.0
-New Mexico,NM,16,12,5.0,0.0,5.0,Democrat,0.0
-New York,NY,659,518,29.0,0.0,29.0,Democrat,0.0
-North Carolina,NC,103,101,15.0,0.0,15.0,Democrat,0.0
-North Dakota,ND,11,12,3.0,3.0,0.0,Republican,1.0
-Ohio,OH,162,105,18.0,0.0,18.0,Democrat,0.0
-Oklahoma,OK,24,17,7.0,0.0,7.0,Democrat,0.0
-Oregon,OR,62,100,7.0,7.0,0.0,Republican,1.0
-Pennsylvania,PA,176,144,20.0,0.0,20.0,Democrat,0.0
-Puerto Rico,PR,18,15,,0.0,,Democrat,
-Rhode Island,RI,7,8,4.0,4.0,0.0,Republican,1.0
-South Carolina,SC,30,26,9.0,0.0,9.0,Democrat,0.0
-South Dakota,SD,3,4,3.0,3.0,0.0,Republican,1.0
-Tennessee,TN,56,59,11.0,11.0,0.0,Republican,1.0
-Texas,TX,390,445,38.0,38.0,0.0,Republican,1.0
-Utah,UT,13,46,6.0,6.0,0.0,Republican,1.0
-Vermont,VT,9,24,3.0,3.0,0.0,Republican,1.0
-Virginia,VA,50,55,13.0,13.0,0.0,Republican,1.0
-West Virginia,WV,11,9,5.0,0.0,5.0,Democrat,0.0
-Wisconsin,WI,54,37,10.0,0.0,10.0,Democrat,0.0
-Wyoming,WY,4,7,3.0,3.0,0.0,Republican,1.0
+Alabama,AL,296,333,9.0,9.0,0.0,Republican,1.0
+Alaska,AK,152,115,3.0,0.0,3.0,Democrat,0.0
+Arizona,AZ,1136,1045,11.0,0.0,11.0,Democrat,0.0
+Arkansas,AR,174,209,6.0,6.0,0.0,Republican,1.0
+California,CA,9627,10423,55.0,55.0,0.0,Republican,1.0
+Colorado,CO,1002,1242,9.0,9.0,0.0,Republican,1.0
+Connecticut,CT,362,372,7.0,7.0,0.0,Republican,1.0
+Delaware,DE,126,87,3.0,0.0,3.0,Democrat,0.0
+District of Columbia,DC,2482,3449,3.0,3.0,0.0,Republican,1.0
+District of Columbia,WA,785,894,12.0,12.0,0.0,Republican,1.0
+Florida,FL,4834,5579,29.0,29.0,0.0,Republican,1.0
+Georgia,GA,1165,940,16.0,0.0,16.0,Democrat,0.0
+Hawaii,HI,226,238,4.0,4.0,0.0,Republican,1.0
+Idaho,ID,154,203,4.0,4.0,0.0,Republican,1.0
+Illinois,IL,1984,2356,20.0,20.0,0.0,Republican,1.0
+Indiana,IN,646,465,11.0,0.0,11.0,Democrat,0.0
+Iowa,IA,194,302,6.0,6.0,0.0,Republican,1.0
+Kansas,KS,290,307,6.0,6.0,0.0,Republican,1.0
+Kentucky,KY,437,513,8.0,8.0,0.0,Republican,1.0
+Louisiana,LA,385,405,8.0,8.0,0.0,Republican,1.0
+Maine,ME,137,150,4.0,4.0,0.0,Republican,1.0
+Maryland,MD,751,712,10.0,0.0,10.0,Democrat,0.0
+Massachusetts,MA,1474,1550,11.0,11.0,0.0,Republican,1.0
+Michigan,MI,1097,1034,16.0,0.0,16.0,Democrat,0.0
+Minnesota,MN,604,594,10.0,0.0,10.0,Democrat,0.0
+Mississippi,MS,75,90,6.0,6.0,0.0,Republican,1.0
+Missouri,MO,615,835,10.0,10.0,0.0,Republican,1.0
+Montana,MT,92,70,3.0,0.0,3.0,Democrat,0.0
+Nebraska,NE,129,136,5.0,5.0,0.0,Republican,1.0
+Nevada,NV,809,787,6.0,0.0,6.0,Democrat,0.0
+New Hampshire,NH,144,110,4.0,0.0,4.0,Democrat,0.0
+New Jersey,NJ,1451,1665,14.0,14.0,0.0,Republican,1.0
+New Mexico,NM,159,166,5.0,5.0,0.0,Republican,1.0
+New York,NY,7442,8155,29.0,29.0,0.0,Republican,1.0
+North Carolina,NC,1166,1138,15.0,0.0,15.0,Democrat,0.0
+North Dakota,ND,112,158,3.0,3.0,0.0,Republican,1.0
+Ohio,OH,1606,1293,18.0,0.0,18.0,Democrat,0.0
+Oklahoma,OK,275,291,7.0,7.0,0.0,Republican,1.0
+Oregon,OR,745,1111,7.0,7.0,0.0,Republican,1.0
+Pennsylvania,PA,2024,2274,20.0,20.0,0.0,Republican,1.0
+Puerto Rico,PR,191,169,,0.0,,Democrat,
+Rhode Island,RI,92,98,4.0,4.0,0.0,Republican,1.0
+South Carolina,SC,376,421,9.0,9.0,0.0,Republican,1.0
+South Dakota,SD,22,22,3.0,0.0,0.0,Republican,0.0
+Tennessee,TN,695,813,11.0,11.0,0.0,Republican,1.0
+Texas,TX,5105,5646,38.0,38.0,0.0,Republican,1.0
+Utah,UT,254,324,6.0,6.0,0.0,Republican,1.0
+Vermont,VT,102,327,3.0,3.0,0.0,Republican,1.0
+Virginia,VA,798,914,13.0,13.0,0.0,Republican,1.0
+West Virginia,WV,107,123,5.0,5.0,0.0,Republican,1.0
+Wisconsin,WI,620,527,10.0,0.0,10.0,Democrat,0.0
+Wyoming,WY,89,105,3.0,3.0,0.0,Republican,1.0

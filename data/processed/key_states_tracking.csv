@@ -1,6 +1,6 @@
 State,state_code,Electoral Votes,Tendency,Winning
 Alaska,AK,3,Unknown,Democrat
-Arizona,AZ,11,Unknown,Republican
+Arizona,AZ,11,Unknown,Democrat
 Florida,FL,29,Unknown,Republican
 Georgia,GA,16,Unknown,Democrat
 Iowa,IA,6,Unknown,Republican
@@ -8,18 +8,18 @@ Kansas,KS,6,Unknown,Republican
 Kentucky,KY,8,Unknown,Republican
 Maine,ME,4,Unknown,Republican
 Michigan,MI,16,Unknown,Democrat
-Minnesota,MN,10,Unknown,Republican
-Montana,MT,3,Unknown,Republican
+Minnesota,MN,10,Unknown,Democrat
+Montana,MT,3,Unknown,Democrat
 Nebraska,NE,5,Unknown,Republican
 Nevada,NV,6,Unknown,Democrat
-New Hampshire,NH,4,Unknown,Republican
-New Mexico,NM,5,Unknown,Democrat
+New Hampshire,NH,4,Unknown,Democrat
+New Mexico,NM,5,Unknown,Republican
 North Carolina,NC,15,Unknown,Democrat
 Ohio,OH,18,Unknown,Democrat
-Pennsylvania,PA,20,Unknown,Democrat
+Pennsylvania,PA,20,Unknown,Republican
 Rhode Island,RI,4,Unknown,Republican
 Texas,TX,38,Unknown,Republican
 Utah,UT,6,Unknown,Republican
 Virginia,VA,13,Unknown,Republican
-West Virginia,WV,5,Unknown,Democrat
+West Virginia,WV,5,Unknown,Republican
 Wisconsin,WI,10,Unknown,Democrat

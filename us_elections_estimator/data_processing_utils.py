@@ -35,7 +35,8 @@ def raw_data_processing():
 
 def state_aggregation(df, file_name):
 
-    df['preference'] = np.where(df['target'] == 'democrat fan', 'Democrat', 'Republican')
+    #df['preference'] = np.where(df['target'] == 'democrat fan', 'Democrat', 'Republican')
+    df['preference'] = df['prediction']
     df['created_at'] = pd.to_datetime(df['created_at'])
 
     grouped_sentiment = df.copy()
