@@ -52,6 +52,16 @@ streamlit run streamlit_app/app.py
 
 Our estimations are derived from a fine-tuned version of DistilBERT, applied to Twitter (now X) data focusing on political tweets. The model analyzes the sentiment of each tweet and categorizes support based on the political figure or party the tweet references.
 
+The process of zero-shot learning, fine-tuning on DistilBERT, and final labeling of our data is detailed in the notebook located in the notebooks folder. This process was run using Google Colab.
+
+## Replicating out process
+
+1. Run the notebook in the ´notebooks´ folder using Google Colab to perform zero-shot learning, fine-tuning on DistilBERT, and final labeling of data. Save the results in the ´data/processed´ folder.
+2. Obtain the official results from the [source](https://electionlab.mit.edu/data), and save the presidential results by county in the ´data/raw´ folder.
+3. Run the ´data_processing.py´ script located in the us_elections_estimator folder to process the raw data and generate the necessary files for the application.
+
+These steps are necessary because of storage limitations on GitHub, which prevent us from including large datasets directly in the repository. Nevertheless, it is ready to try the app because all processed data is already contained.
+
 ### Sections Explained
 
 - **GeoPreferences:** This section visualizes the distribution of electoral votes across different states, highlighting key battleground states.

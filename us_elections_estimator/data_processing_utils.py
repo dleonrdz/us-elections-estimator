@@ -17,6 +17,10 @@ state_codes = {'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR
 
 electoral_votes_df = pd.read_csv(electoral_votes)
 def raw_data_processing():
+    """This function processes official data regarding
+    the results of 2020 and aggregates it in a suitable format for further
+    processing"""
+
     raw_data_path = os.path.join(PROJECT_ROOT,"data/raw/president_county_candidate.csv")
     processed_data_path = os.path.join(PROJECT_ROOT,"data/processed/official_results.csv")
 
@@ -34,6 +38,9 @@ def raw_data_processing():
     print(df_grouped.head())
 
 def state_aggregation(df, file_name):
+    """This function processes the labelled data that resulted from the fine-tuned model
+    labeling and saves different processed files for the different visualizations
+     in the streamlit app"""
 
     #df['preference'] = np.where(df['target'] == 'democrat fan', 'Democrat', 'Republican')
     df['preference'] = df['prediction']
@@ -96,6 +103,9 @@ def state_aggregation(df, file_name):
     pivot_time_series.to_csv('data/processed/time_series_tracking.csv',index=False)
 
 def official_results_processing():
+    """This function takes official data result from raw_data_processing function
+    and aggregates it in a suitable format for the streamlit app"""
+
     official_results_path = os.path.join(PROJECT_ROOT, "data/processed/official_results.csv")
     official_df = pd.read_csv(official_results_path)
 
