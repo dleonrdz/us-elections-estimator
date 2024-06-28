@@ -56,20 +56,43 @@ def state_aggregation(df, file_name):
     if 'Democrat' not in pivot_sentiment_df.columns:
         pivot_sentiment_df['Democrat'] = 0
 
-    pivot_sentiment_df = pivot_sentiment_df.merge(electoral_votes_df[['state_code', 'Electoral Votes']],
+    pivot_sentiment_df = pivot_sentiment_df.merge(electoral_votes_df[['state_code', 'Electoral Votes', 'Tendency']],
                                                   how='left',
                                                   on='state_code')
 
+    conditions = [pivot_sentiment_df['Tendency'] == 'Republican',
+                  pivot_sentiment_df['Tendency'] == 'Democrat',
+                  pivot_sentiment_df['Republican'] > pivot_sentiment_df['Democrat']]
+
+    results = [pivot_sentiment_df['Electoral Votes'],
+               0,
+               pivot_sentiment_df['Electoral Votes']]
+
+
     pivot_sentiment_df['Republican_electoral_votes'] = np\
-        .where(pivot_sentiment_df['Republican'] > pivot_sentiment_df['Democrat'], pivot_sentiment_df['Electoral Votes'],0)
+        .select(conditions, results,0)
+
+    conditions = [pivot_sentiment_df['Tendency'] == 'Democrat',
+                  pivot_sentiment_df['Tendency'] == 'Republican',
+                  pivot_sentiment_df['Republican'] < pivot_sentiment_df['Democrat']]
+
+    results = [pivot_sentiment_df['Electoral Votes'],
+               0,
+               pivot_sentiment_df['Electoral Votes']]
 
     pivot_sentiment_df['Democrat_electoral_votes'] = np \
-        .where(pivot_sentiment_df['Republican'] < pivot_sentiment_df['Democrat'], pivot_sentiment_df['Electoral Votes'],
-               0)
+        .select(conditions, results, 0)
+
+    conditions = [pivot_sentiment_df['Tendency'] == 'Democrat',
+                  pivot_sentiment_df['Tendency'] == 'Republican',
+                  pivot_sentiment_df['Republican'] < pivot_sentiment_df['Democrat']]
+    results = ['Democrat',
+               'Republican',
+               'Democrat']
 
     pivot_sentiment_df['Winning'] = np \
-        .where(pivot_sentiment_df['Republican'] < pivot_sentiment_df['Democrat'],
-               'Democrat',
+        .select(conditions,
+               results,
                'Republican')
 
     pivot_sentiment_df['preference_ratio'] = pivot_sentiment_df['Republican_electoral_votes'] / pivot_sentiment_df['Electoral Votes']
